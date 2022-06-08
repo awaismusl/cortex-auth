@@ -20,88 +20,76 @@
 
     @includeWhen($manager->exists, 'cortex/foundation::adminarea.partials.modal', ['id' => 'delete-confirmation'])
 
-    <div class="content-wrapper">
-        <section class="content-header">
+    <div>
+        <section class="pt-3">
             <h1>{{ Breadcrumbs::render() }}</h1>
         </section>
-
         {{-- Main content --}}
-        <section class="content">
-
-            <div class="nav-tabs-custom">
-                @includeWhen($manager->exists, 'cortex/foundation::adminarea.partials.actions', ['name' => 'manager', 'model' => $manager, 'resource' => trans('cortex/auth::common.manager'), 'routePrefix' => 'adminarea.cortex.auth.managers'])
-                {!! Menu::render('adminarea.cortex.auth.managers.tabs', 'nav-tab') !!}
-
-                <div class="tab-content">
-
-                    <div class="tab-pane active" id="details-tab">
+        <div class="bg-white p-3 my-3 rounded-sm shadow-md border border-gray-100">
+            <section class="container mx-auto mb-6">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
+                    <aside class="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
+                        <nav class="space-y-1">
+                            {!! Menu::render('adminarea.cortex.auth.managers.tabs', 'nav-tab') !!}
+                        </nav>
+                    </aside>
+                    <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+                        @includeWhen($manager->exists, 'cortex/foundation::adminarea.partials.actions', ['name' => 'manager', 'model' => $manager, 'resource' => trans('cortex/auth::common.manager'), 'routePrefix' => 'adminarea.cortex.auth.managers'])
 
                         @if ($manager->exists)
                             {{ Form::model($manager, ['url' => route('adminarea.cortex.auth.managers.update', ['manager' => $manager]), 'id' => "adminarea-cortex-auth-managers-{$manager->getRouteKey()}-update-form", 'method' => 'put', 'files' => true]) }}
                         @else
                             {{ Form::model($manager, ['url' => route('adminarea.cortex.auth.managers.store'), 'id' => 'adminarea-cortex-auth-managers-create-form', 'files' => true]) }}
                         @endif
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                        <div class="shadow sm:rounded-md sm:overflow-hidden">
+                            <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Given Name --}}
-                                    <div class="form-group{{ $errors->has('given_name') ? ' has-error' : '' }}">
-                                        {{ Form::label('given_name', trans('cortex/auth::common.given_name'), ['class' => 'control-label']) }}
-                                        {{ Form::text('given_name', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.given_name'), 'data-slugify' => '[name="username"]', 'required' => 'required', 'autofocus' => 'autofocus']) }}
+                                    <div class="{{ $errors->has('given_name') ? ' has-error' : '' }}">
+                                        {{ Form::label('given_name', trans('cortex/auth::common.given_name'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('given_name', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('given_name')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.given_name'), 'data-slugify' => '[name="username"]', 'required' => 'required', 'autofocus' => 'autofocus']) }}
 
                                         @if ($errors->has('given_name'))
                                             <span class="help-block">{{ $errors->first('given_name') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Family Name --}}
-                                    <div class="form-group{{ $errors->has('family_name') ? ' has-error' : '' }}">
-                                        {{ Form::label('family_name', trans('cortex/auth::common.family_name'), ['class' => 'control-label']) }}
-                                        {{ Form::text('family_name', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.family_name')]) }}
+                                    <div class="{{ $errors->has('family_name') ? ' has-error' : '' }}">
+                                        {{ Form::label('family_name', trans('cortex/auth::common.family_name'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('family_name', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('family_name')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.family_name')]) }}
 
                                         @if ($errors->has('family_name'))
                                             <span class="help-block">{{ $errors->first('family_name') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Username --}}
-                                    <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                                        {{ Form::label('username', trans('cortex/auth::common.username'), ['class' => 'control-label']) }}
-                                        {{ Form::text('username', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.username'), 'required' => 'required']) }}
+                                    <div class="{{ $errors->has('username') ? ' has-error' : '' }}">
+                                        {{ Form::label('username', trans('cortex/auth::common.username'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('username', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('username')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.username'), 'required' => 'required']) }}
 
                                         @if ($errors->has('username'))
                                             <span class="help-block">{{ $errors->first('username') }}</span>
                                         @endif
                                     </div>
-
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Email --}}
-                                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                        {{ Form::label('email', trans('cortex/auth::common.email'), ['class' => 'control-label']) }}
-                                        {{ Form::label('email_verified', trans('cortex/auth::common.verified'), ['class' => 'control-label pull-right']) }}
-
-                                        <div class="input-group">
-                                            {{ Form::email('email', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.email'), 'required' => 'required']) }}
-                                            <span class="input-group-addon">
-                                                {{ Form::checkbox('email_verified') }}
-                                            </span>
+                                    <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
+                                        <div class="flex justify-between">
+                                            {{ Form::label('email', trans('cortex/auth::common.email'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                            {{ Form::label('email_verified', trans('cortex/auth::common.verified'), ['class' => 'block text-sm font-medium text-gray-700 pull-right']) }}
+                                        </div>
+                                        <div class="">
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    {{ Form::email('email', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('email_verified')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.email'), 'required' => 'required']) }}
+                                                </div>
+                                                <div class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    {{ Form::checkbox('email_verified') }}
+                                                </div>
+                                            </div>
                                         </div>
 
                                         @if ($errors->has('email'))
@@ -109,14 +97,10 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Phone --}}
-                                    <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                                        {{ Form::label('phone', trans('cortex/auth::common.phone'), ['class' => 'control-label']) }}
-                                        {{ Form::tel('phone_input', $manager->phone, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.phone')]) }}
+                                    <div class="{{ $errors->has('phone') ? ' has-error' : '' }}">
+                                        {{ Form::label('phone', trans('cortex/auth::common.phone'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::tel('phone_input', $manager->phone, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('phone')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.phone')]) }}
 
                                         <span class="help-block hide">{{ trans('cortex/foundation::messages.invalid_phone') }}</span>
                                         @if ($errors->has('phone'))
@@ -124,31 +108,20 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Is Active --}}
-                                    <div class="form-group{{ $errors->has('is_active') ? ' has-error' : '' }}">
-                                        {{ Form::label('is_active', trans('cortex/auth::common.is_active'), ['class' => 'control-label']) }}
+                                    <div class="{{ $errors->has('is_active') ? ' has-error' : '' }}">
+                                        {{ Form::label('is_active', trans('cortex/auth::common.is_active'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                         {{ Form::select('is_active', [1 => trans('cortex/auth::common.yes'), 0 => trans('cortex/auth::common.no')], null, ['class' => 'form-control select2', 'data-minimum-results-for-search' => 'Infinity', 'data-width' => '100%', 'required' => 'required']) }}
 
                                         @if ($errors->has('is_active'))
                                             <span class="help-block">{{ $errors->first('is_active') }}</span>
                                         @endif
                                     </div>
-
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Country Code --}}
-                                    <div class="form-group{{ $errors->has('country_code') ? ' has-error' : '' }}">
-                                        {{ Form::label('country_code', trans('cortex/auth::common.country'), ['class' => 'control-label']) }}
+                                    <div class="{{ $errors->has('country_code') ? ' has-error' : '' }}">
+                                        {{ Form::label('country_code', trans('cortex/auth::common.country'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                         {{ Form::hidden('country_code', '', ['class' => 'skip-validation', 'id' => 'country_code_hidden']) }}
                                         {{ Form::select('country_code', [], null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_country'), 'data-allow-clear' => 'true', 'data-width' => '100%']) }}
 
@@ -157,13 +130,9 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Language Code --}}
-                                    <div class="form-group{{ $errors->has('language_code') ? ' has-error' : '' }}">
-                                        {{ Form::label('language_code', trans('cortex/auth::common.language'), ['class' => 'control-label']) }}
+                                    <div class="{{ $errors->has('language_code') ? ' has-error' : '' }}">
+                                        {{ Form::label('language_code', trans('cortex/auth::common.language'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                         {{ Form::hidden('language_code', '', ['class' => 'skip-validation', 'id' => 'language_code_hidden']) }}
                                         {{ Form::select('language_code', $languages, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_language'), 'data-allow-clear' => 'true', 'data-width' => '100%']) }}
 
@@ -172,61 +141,48 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-
-                                <div class="col-md-4">
-
                                     {{-- Title --}}
-                                    <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-                                        {{ Form::label('title', trans('cortex/auth::common.title'), ['class' => 'control-label']) }}
-                                        {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.title')]) }}
+                                    <div class="{{ $errors->has('title') ? ' has-error' : '' }}">
+                                        {{ Form::label('title', trans('cortex/auth::common.title'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('title', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('title')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.title')]) }}
 
                                         @if ($errors->has('title'))
                                             <span class="help-block">{{ $errors->first('title') }}</span>
                                         @endif
                                     </div>
-
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Organization --}}
-                                    <div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }}">
-                                        {{ Form::label('organization', trans('cortex/auth::common.organization'), ['class' => 'control-label']) }}
-                                        {{ Form::text('organization', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.organization')]) }}
+                                    <div class="{{ $errors->has('organization') ? ' has-error' : '' }}">
+                                        {{ Form::label('organization', trans('cortex/auth::common.organization'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('organization', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('organization')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.organization')]) }}
 
                                         @if ($errors->has('organization'))
                                             <span class="help-block">{{ $errors->first('organization') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Birthday --}}
-                                    <div class="form-group has-feedback{{ $errors->has('birthday') ? ' has-error' : '' }}">
-                                        {{ Form::label('birthday', trans('cortex/auth::common.birthday'), ['class' => 'control-label']) }}
-                                        {{ Form::date('birthday', null, ['class' => 'form-control datepicker', 'data-locale' => '{"format": "YYYY-MM-DD"}', 'data-single-date-picker' => 'true', 'data-show-dropdowns' => 'true', 'data-auto-apply' => 'true', 'data-min-date' => '1900-01-01']) }}
-                                        <span class="fa fa-calendar form-control-feedback"></span>
-
+                                    <div class=" has-feedback{{ $errors->has('birthday') ? ' has-error' : '' }}">
+                                        {{ Form::label('birthday', trans('cortex/auth::common.birthday'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        <div class="">
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    {{ Form::date('birthday', null, ['class' => 'datepicker appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('organization')?' border-red-500':' border-gray-300'), 'data-locale' => '{"format": "YYYY-MM-DD"}', 'data-single-date-picker' => 'true', 'data-show-dropdowns' => 'true', 'data-auto-apply' => 'true', 'data-min-date' => '1900-01-01']) }}
+                                                </div>
+                                                <div class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <span class="fa fa-calendar form-control-feedback"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @if ($errors->has('birthday'))
                                             <span class="help-block">{{ $errors->first('birthday') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Gender --}}
-                                    <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                        {{ Form::label('gender', trans('cortex/auth::common.gender'), ['class' => 'control-label']) }}
+                                    <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                        {{ Form::label('gender', trans('cortex/auth::common.gender'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                         {{ Form::hidden('gender', '', ['class' => 'skip-validation', 'id' => 'gender_hidden']) }}
                                         {{ Form::select('gender', $genders, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_gender'), 'data-allow-clear' => 'true', 'data-minimum-results-for-search' => 'Infinity', 'data-width' => '100%']) }}
 
@@ -234,18 +190,11 @@
                                             <span class="help-block">{{ $errors->first('gender') }}</span>
                                         @endif
                                     </div>
-
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Tags --}}
-                                    <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
-                                        {{ Form::label('tags[]', trans('cortex/auth::common.tags'), ['class' => 'control-label']) }}
+                                    <div class="{{ $errors->has('tags') ? ' has-error' : '' }}">
+                                        {{ Form::label('tags[]', trans('cortex/auth::common.tags'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                         {{ Form::hidden('tags', '', ['class' => 'skip-validation']) }}
                                         {{ Form::select('tags[]', $tags, null, ['class' => 'form-control select2', 'multiple' => 'multiple', 'data-width' => '100%', 'data-tags' => 'true']) }}
 
@@ -254,15 +203,10 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-                                @can('assign', \Cortex\Auth\Models\Role::class)
-
-                                    <div class="col-md-4">
-
+                                    @can('assign', \Cortex\Auth\Models\Role::class)
                                         {{-- Roles --}}
-                                        <div class="form-group{{ $errors->has('roles') ? ' has-error' : '' }}">
-                                            {{ Form::label('roles[]', trans('cortex/auth::common.roles'), ['class' => 'control-label']) }}
+                                        <div class="{{ $errors->has('roles') ? ' has-error' : '' }}">
+                                            {{ Form::label('roles[]', trans('cortex/auth::common.roles'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                             {{ Form::hidden('roles', '', ['class' => 'skip-validation']) }}
                                             {{ Form::select('roles[]', $roles, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_roles'), 'multiple' => 'multiple', 'data-close-on-select' => 'false', 'data-width' => '100%']) }}
 
@@ -270,18 +214,12 @@
                                                 <span class="help-block">{{ $errors->first('roles') }}</span>
                                             @endif
                                         </div>
+                                    @endcan
 
-                                    </div>
-
-                                @endcan
-
-                                @can('grant', \Cortex\Auth\Models\Ability::class)
-
-                                    <div class="col-md-4">
-
+                                    @can('grant', \Cortex\Auth\Models\Ability::class)
                                         {{-- Abilities --}}
-                                        <div class="form-group{{ $errors->has('abilities') ? ' has-error' : '' }}">
-                                            {{ Form::label('abilities[]', trans('cortex/auth::common.abilities'), ['class' => 'control-label']) }}
+                                        <div class="{{ $errors->has('abilities') ? ' has-error' : '' }}">
+                                            {{ Form::label('abilities[]', trans('cortex/auth::common.abilities'), ['class' => 'block text-sm font-medium text-gray-700']) }}
                                             {{ Form::hidden('abilities', '', ['class' => 'skip-validation']) }}
                                             {{ Form::select('abilities[]', $abilities, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_abilities'), 'multiple' => 'multiple', 'data-close-on-select' => 'false', 'data-width' => '100%']) }}
 
@@ -289,77 +227,123 @@
                                                 <span class="help-block">{{ $errors->first('abilities') }}</span>
                                             @endif
                                         </div>
-
-                                    </div>
-
-                                @endcan
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                    @endcan
+                                </div>
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Twitter --}}
-                                    <div class="form-group{{ $errors->has('social.twitter') ? ' has-error' : '' }}">
-                                        {{ Form::label('social[twitter]', trans('cortex/auth::common.twitter'), ['class' => 'control-label']) }}
-                                        {{ Form::text('social[twitter]', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.twitter')]) }}
+                                    <div class="{{ $errors->has('social.twitter') ? ' has-error' : '' }}">
+                                        {{ Form::label('social[twitter]', trans('cortex/auth::common.twitter'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('social[twitter]', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('social.twitter')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.twitter')]) }}
 
                                         @if ($errors->has('social.twitter'))
                                             <span class="help-block">{{ $errors->first('social.twitter') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Facebook --}}
-                                    <div class="form-group{{ $errors->has('social.facebook') ? ' has-error' : '' }}">
-                                        {{ Form::label('social[facebook]', trans('cortex/auth::common.facebook'), ['class' => 'control-label']) }}
-                                        {{ Form::text('social[facebook]', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.facebook')]) }}
+                                    <div class="{{ $errors->has('social.facebook') ? ' has-error' : '' }}">
+                                        {{ Form::label('social[facebook]', trans('cortex/auth::common.facebook'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('social[facebook]', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('social.facebook')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.facebook')]) }}
 
                                         @if ($errors->has('social.facebook'))
                                             <span class="help-block">{{ $errors->first('social.facebook') }}</span>
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Linkedin --}}
-                                    <div class="form-group{{ $errors->has('social.linkedin') ? ' has-error' : '' }}">
-                                        {{ Form::label('social[linkedin]', trans('cortex/auth::common.linkedin'), ['class' => 'control-label']) }}
-                                        {{ Form::text('social[linkedin]', null, ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.linkedin')]) }}
+                                    <div class="{{ $errors->has('social.linkedin') ? ' has-error' : '' }}">
+                                        {{ Form::label('social[linkedin]', trans('cortex/auth::common.linkedin'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::text('social[linkedin]', null, ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('social.linkedin')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.linkedin')]) }}
 
                                         @if ($errors->has('social.linkedin'))
                                             <span class="help-block">{{ $errors->first('social.linkedin') }}</span>
                                         @endif
                                     </div>
 
+                                    {{-- Timezone --}}
+                                    <div class="{{ $errors->has('timezone') ? ' has-error' : '' }}">
+                                        {{ Form::label('timezone', trans('cortex/tenants::common.timezone'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::hidden('timezone', '', ['class' => 'skip-validation', 'id' => 'timezone_hidden']) }}
+                                        {{ Form::select('timezone', timezones(), null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_timezone'), 'data-allow-clear' => 'true', 'data-width' => '100%']) }}
+
+                                        @if ($errors->has('timezone'))
+                                            <span class="help-block">{{ $errors->first('timezone') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-6">
+                                    {{-- Tenants --}}
+                                    <div class="{{ $errors->has('tenants') ? ' has-error' : '' }}">
+                                        {{ Form::label('tenants[]', trans('cortex/auth::common.tenants'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        {{ Form::hidden('tenants', '', ['class' => 'skip-validation']) }}
+                                        {{ Form::select('tenants[]', $tenants, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_tenants'), 'multiple' => 'multiple', 'data-close-on-select' => 'false', 'data-width' => '100%']) }}
+
+                                        @if ($errors->has('tenants'))
+                                            <span class="help-block">{{ $errors->first('tenants') }}</span>
+                                        @endif
+                                    </div>
+                                    {{-- Password --}}
+                                    <div class=" has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">
+                                        {{ Form::label('password', trans('cortex/auth::common.password'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        <div class="">
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    @if ($manager->exists)
+                                                        {{ Form::password('password', ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('password')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.password')]) }}
+                                                    @else
+                                                        {{ Form::password('password', ['class' => 'autogenerate appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('password')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.password'), 'required' => 'required']) }}
+                                                    @endif
+                                                </div>
+                                                <div class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <span class="fa fa-key form-control-feedback"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">{{ $errors->first('password') }}</span>
+                                        @endif
+                                    </div>
+
+                                    {{-- Password Confirmation --}}
+                                    <div class=" has-feedback{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                        {{ Form::label('password_confirmation', trans('cortex/auth::common.password_confirmation'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        <div class="">
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    @if ($manager->exists)
+                                                        {{ Form::password('password_confirmation', ['class' => 'appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('password_confirmation')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.password_confirmation')]) }}
+                                                    @else
+                                                        {{ Form::password('password_confirmation', ['class' => 'autogenerate appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('password_confirmation')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.password_confirmation'), 'required' => 'required']) }}
+                                                    @endif
+                                                </div>
+                                                <div class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <span class="fa fa-key form-control-feedback"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('password_confirmation'))
+                                            <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
+                                        @endif
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
+                                <div class="grid grid-cols-3 gap-6">
                                     {{-- Profile Picture --}}
-                                    <div class="form-group has-feedback{{ $errors->has('profile_picture') ? ' has-error' : '' }}">
-                                        {{ Form::label('profile_picture', trans('cortex/auth::common.profile_picture'), ['class' => 'control-label']) }}
-
-                                        <div class="input-group">
-                                            {{ Form::text('profile_picture', null, ['class' => 'form-control file-name', 'placeholder' => trans('cortex/auth::common.profile_picture'), 'readonly' => 'readonly']) }}
-
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn-file">
-                                                    {{ trans('cortex/auth::common.browse') }}
-                                                    {{-- Skip Javascrip validation for file input fields to avoid size validation conflict with jquery.validator --}}
-                                                    {{ Form::file('profile_picture', ['class' => 'form-control skip-validation', 'id' => 'profile_picture_browse']) }}
-                                                </span>
-                                            </span>
+                                    <div class=" has-feedback{{ $errors->has('profile_picture') ? ' has-error' : '' }}">
+                                        {{ Form::label('profile_picture', trans('cortex/auth::common.profile_picture'), ['class' => 'block text-sm font-medium text-gray-700']) }}
+                                        <div class="">
+                                            <div class="input-group mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    {{ Form::text('profile_picture', null, ['class' => 'file-name appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('email_verified')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.profile_picture'), 'readonly' => 'readonly']) }}
+                                                </div>
+                                                <div class="input-group-btn -ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <div class="btn btn-default btn-file">
+                                                        {{ trans('cortex/auth::common.browse') }}
+                                                        {{-- Skip Javascrip validation for file input fields to avoid size validation conflict with jquery.validator --}}
+                                                        {{ Form::file('profile_picture', ['class' => 'sr-only skip-validation', 'id' => 'profile_picture_browse']) }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         @if ($manager->exists && $manager->getMedia('profile_picture')->count())
@@ -378,24 +362,24 @@
                                         @endif
                                     </div>
 
-                                </div>
-
-                                <div class="col-md-4">
-
                                     {{-- Cover Photo --}}
-                                    <div class="form-group has-feedback{{ $errors->has('cover_photo') ? ' has-error' : '' }}">
-                                        {{ Form::label('cover_photo', trans('cortex/auth::common.cover_photo'), ['class' => 'control-label']) }}
+                                    <div class=" has-feedback{{ $errors->has('cover_photo') ? ' has-error' : '' }}">
+                                        {{ Form::label('cover_photo', trans('cortex/auth::common.cover_photo'), ['class' => 'block text-sm font-medium text-gray-700']) }}
 
-                                        <div class="input-group">
-                                            {{ Form::text('cover_photo', null, ['class' => 'form-control file-name', 'placeholder' => trans('cortex/auth::common.cover_photo'), 'readonly' => 'readonly']) }}
+                                        <div class="">
+                                            <div class="input-group mt-1 flex rounded-md shadow-sm">
+                                                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                                                    {{ Form::text('cover_photo', null, ['class' => 'file-name appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'.($errors->has('cover_photo')?' border-red-500':' border-gray-300'), 'placeholder' => trans('cortex/auth::common.cover_photo'), 'readonly' => 'readonly']) }}
+                                                </div>
+                                                <div class="input-group-btn -ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <div class="btn btn-default btn-file">
+                                                        {{ trans('cortex/auth::common.browse') }}
+                                                        {{-- Skip Javascrip validation for file input fields to avoid size validation conflict with jquery.validator --}}
+                                                        {{ Form::file('cover_photo', ['class' => 'sr-only skip-validation', 'id' => 'cover_photo_browse']) }}
 
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn-file">
-                                                    {{ trans('cortex/auth::common.browse') }}
-                                                    {{-- Skip Javascrip validation for file input fields to avoid size validation conflict with jquery.validator --}}
-                                                    {{ Form::file('cover_photo', ['class' => 'form-control skip-validation', 'id' => 'cover_photo_browse']) }}
-                                                </span>
-                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         @if ($manager->exists && $manager->getMedia('cover_photo')->count())
@@ -413,106 +397,19 @@
                                             <span class="help-block">{{ $errors->first('cover_photo') }}</span>
                                         @endif
                                     </div>
-
                                 </div>
-
-                                <div class="col-md-4">
-
-                                    {{-- Tenants --}}
-                                    <div class="form-group{{ $errors->has('tenants') ? ' has-error' : '' }}">
-                                        {{ Form::label('tenants[]', trans('cortex/auth::common.tenants'), ['class' => 'control-label']) }}
-                                        {{ Form::hidden('tenants', '', ['class' => 'skip-validation']) }}
-                                        {{ Form::select('tenants[]', $tenants, null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_tenants'), 'multiple' => 'multiple', 'data-close-on-select' => 'false', 'data-width' => '100%']) }}
-
-                                        @if ($errors->has('tenants'))
-                                            <span class="help-block">{{ $errors->first('tenants') }}</span>
-                                        @endif
-                                    </div>
-
-                                </div>
-
                             </div>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
-                                    {{-- Timezone --}}
-                                    <div class="form-group{{ $errors->has('timezone') ? ' has-error' : '' }}">
-                                        {{ Form::label('timezone', trans('cortex/tenants::common.timezone'), ['class' => 'control-label']) }}
-                                        {{ Form::hidden('timezone', '', ['class' => 'skip-validation', 'id' => 'timezone_hidden']) }}
-                                        {{ Form::select('timezone', timezones(), null, ['class' => 'form-control select2', 'placeholder' => trans('cortex/auth::common.select_timezone'), 'data-allow-clear' => 'true', 'data-width' => '100%']) }}
-
-                                        @if ($errors->has('timezone'))
-                                            <span class="help-block">{{ $errors->first('timezone') }}</span>
-                                        @endif
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    {{-- Password --}}
-                                    <div class="form-group has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">
-                                        {{ Form::label('password', trans('cortex/auth::common.password'), ['class' => 'control-label']) }}
-                                        @if ($manager->exists)
-                                            {{ Form::password('password', ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.password')]) }}
-                                        @else
-                                            {{ Form::password('password', ['class' => 'form-control autogenerate', 'placeholder' => trans('cortex/auth::common.password'), 'required' => 'required']) }}
-                                        @endif
-                                        <span class="fa fa-key form-control-feedback"></span>
-
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">{{ $errors->first('password') }}</span>
-                                        @endif
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    {{-- Password Confirmation --}}
-                                    <div class="form-group has-feedback{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                        {{ Form::label('password_confirmation', trans('cortex/auth::common.password_confirmation'), ['class' => 'control-label']) }}
-                                        @if ($manager->exists)
-                                            {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => trans('cortex/auth::common.password_confirmation')]) }}
-                                        @else
-                                            {{ Form::password('password_confirmation', ['class' => 'form-control autogenerate', 'placeholder' => trans('cortex/auth::common.password_confirmation'), 'required' => 'required']) }}
-                                        @endif
-                                        <span class="fa fa-key form-control-feedback"></span>
-
-                                        @if ($errors->has('password_confirmation'))
-                                            <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
-                                        @endif
-                                    </div>
-
-                                </div>
-
+                            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                <button type="submit"
+                                        class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    {{ trans('cortex/auth::common.submit') }}
+                                </button>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                    <div class="pull-right">
-                                        {{ Form::button(trans('cortex/auth::common.submit'), ['class' => 'btn btn-primary btn-flat', 'type' => 'submit']) }}
-                                    </div>
-
-                                    @include('cortex/foundation::adminarea.partials.timestamps', ['model' => $manager])
-
-                                </div>
-
-                            </div>
-
+                        </div>
                         {{ Form::close() }}
-
                     </div>
-
                 </div>
-
-            </div>
-
-        </section>
-
+            </section>
+        </div>
     </div>
-
 @endsection
